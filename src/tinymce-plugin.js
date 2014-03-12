@@ -11,7 +11,7 @@
     var $text, config;
     config = $.extend(tinymce_defaults, {
       selector: "#" + block.blockID + " .st-text-block"
-    }, _.result(SirTrevor, 'tinymce_config') || {}, _.result(block, 'tinymce_config') || {});
+    }, _.result(SirTrevor, 'tinymce_config') || {}, _.result(block.sirTrevor.options, 'tinymce_config') || {}, _.result(block, 'tinymce_config') || {});
     tinymce.init(config);
     if ($text = typeof block.getTextBlock === "function" ? block.getTextBlock() : void 0) {
       $text.trigger('blur');
@@ -32,6 +32,14 @@
   SirTrevor.EventBus.bind('block:remove:pre', function(block) {
     return tinymce.remove("#" + block.blockID);
   });
+
+  SirTrevor.toMarkdown = function(html) {
+    return html;
+  };
+
+  SirTrevor.toHtml = function(html) {
+    return html;
+  };
 
 }).call(this);
 

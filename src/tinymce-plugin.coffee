@@ -10,6 +10,7 @@ initialize_tinymce = (block) ->
       selector: "##{ block.blockID } .st-text-block"
     },
     _.result(SirTrevor, 'tinymce_config') || {},
+    _.result(block.sirTrevor.options, 'tinymce_config') || {},
     _.result(block, 'tinymce_config') || {}
   )
   tinymce.init config
@@ -23,3 +24,7 @@ SirTrevor.Block.prototype._initTextBlocks = -> initialize_tinymce(this)
 
 SirTrevor.EventBus.bind 'block:remove:pre', (block) ->
   tinymce.remove "##{ block.blockID }"
+
+# disable transforming to markdown
+SirTrevor.toMarkdown = (html) -> html
+SirTrevor.toHtml = (html) -> html
