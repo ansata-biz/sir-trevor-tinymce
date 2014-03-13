@@ -14,10 +14,12 @@
     }, _.result(SirTrevor, 'tinymce_config') || {}, _.result(block.sirTrevor.options, 'tinymce_config') || {}, _.result(block, 'tinymce_config') || {});
     tinymce.init(config);
     if ($text = typeof block.getTextBlock === "function" ? block.getTextBlock() : void 0) {
-      $text.trigger('blur');
-      if ($text.is('[contenteditable]')) {
-        return $text.trigger('focus');
-      }
+      return setTimeout(function() {
+        $text.trigger('blur');
+        if ($text.is('[contenteditable]')) {
+          return $text.trigger('focus');
+        }
+      }, 200);
     }
   };
 
@@ -27,6 +29,12 @@
 
   SirTrevor.Block.prototype._initTextBlocks = function() {
     return initialize_tinymce(this);
+  };
+
+  SirTrevor.Editor.prototype.scrollTo = function(element) {
+    return $('html, body').animate({
+      scrollTop: element.offset().top - 70
+    }, 300, "linear");
   };
 
   SirTrevor.EventBus.bind('block:remove:pre', function(block) {

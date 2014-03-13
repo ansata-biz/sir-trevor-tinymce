@@ -15,12 +15,18 @@ initialize_tinymce = (block) ->
   )
   tinymce.init config
   if $text = block.getTextBlock?()
-    $text.trigger('blur')
-    $text.trigger('focus') if $text.is('[contenteditable]')
+    setTimeout ->
+      $text.trigger('blur')
+      $text.trigger('focus') if $text.is('[contenteditable]')
+    , 200
 
 SirTrevor.EventBus.bind 'block:create:new', initialize_tinymce
 SirTrevor.EventBus.bind 'block:create:existing', initialize_tinymce
 SirTrevor.Block.prototype._initTextBlocks = -> initialize_tinymce(this)
+SirTrevor.Editor.prototype.scrollTo = (element) ->
+  $('html, body').animate
+    scrollTop: element.offset().top - 70 # tinymce panel height
+  , 300, "linear"
 
 SirTrevor.EventBus.bind 'block:remove:pre', (block) ->
   tinymce.remove "##{ block.blockID }"
