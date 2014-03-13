@@ -7,7 +7,7 @@ initialize_tinymce = (block, initialization) ->
   config = $.extend(
     tinymce_defaults,
     {
-      selector: "##{ block.blockID } .st-text-block"
+      selector: "##{ block.blockID } .st-text-block:not(.mce-content-body)"
     },
     _.result(SirTrevor, 'tinymce_config') || {},
     _.result(block.sirTrevor.options, 'tinymce_config') || {},
@@ -34,3 +34,12 @@ SirTrevor.EventBus.bind 'block:remove:pre', (block) ->
 # disable transforming to markdown
 SirTrevor.toMarkdown = (html) -> html
 SirTrevor.toHtml = (html) -> html
+
+$(document).ready ->
+  $(document.body).bind 'DOMNodeRemoved', (e) ->
+    target = e.originalEvent.target
+    if target == e.target
+      $(target).find('.st-text-block.mce-content-body').each ->
+        tinymce.remove this
+      if $(target).is('.st-text-block.mce-content-body')
+        tinymce.remove target

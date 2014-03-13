@@ -10,7 +10,7 @@
   initialize_tinymce = function(block, initialization) {
     var $text, config;
     config = $.extend(tinymce_defaults, {
-      selector: "#" + block.blockID + " .st-text-block"
+      selector: "#" + block.blockID + " .st-text-block:not(.mce-content-body)"
     }, _.result(SirTrevor, 'tinymce_config') || {}, _.result(block.sirTrevor.options, 'tinymce_config') || {}, _.result(block, 'tinymce_config') || {});
     tinymce.init(config);
     if (!initialization && ($text = typeof block.getTextBlock === "function" ? block.getTextBlock() : void 0)) {
@@ -48,6 +48,21 @@
   SirTrevor.toHtml = function(html) {
     return html;
   };
+
+  $(document).ready(function() {
+    return $(document.body).bind('DOMNodeRemoved', function(e) {
+      var target;
+      target = e.originalEvent.target;
+      if (target === e.target) {
+        $(target).find('.st-text-block.mce-content-body').each(function() {
+          return tinymce.remove(this);
+        });
+        if ($(target).is('.st-text-block.mce-content-body')) {
+          return tinymce.remove(target);
+        }
+      }
+    });
+  });
 
 }).call(this);
 
