@@ -7,13 +7,13 @@
     inline: true
   };
 
-  initialize_tinymce = function(block) {
+  initialize_tinymce = function(block, initialization) {
     var $text, config;
     config = $.extend(tinymce_defaults, {
       selector: "#" + block.blockID + " .st-text-block"
     }, _.result(SirTrevor, 'tinymce_config') || {}, _.result(block.sirTrevor.options, 'tinymce_config') || {}, _.result(block, 'tinymce_config') || {});
     tinymce.init(config);
-    if ($text = typeof block.getTextBlock === "function" ? block.getTextBlock() : void 0) {
+    if (!initialization && ($text = typeof block.getTextBlock === "function" ? block.getTextBlock() : void 0)) {
       return setTimeout(function() {
         $text.trigger('blur');
         if ($text.is('[contenteditable]')) {
@@ -28,7 +28,7 @@
   SirTrevor.EventBus.bind('block:create:existing', initialize_tinymce);
 
   SirTrevor.Block.prototype._initTextBlocks = function() {
-    return initialize_tinymce(this);
+    return initialize_tinymce(this, true);
   };
 
   SirTrevor.Editor.prototype.scrollTo = function(element) {

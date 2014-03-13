@@ -3,7 +3,7 @@ tinymce_defaults = {
   inline: true
 }
 
-initialize_tinymce = (block) ->
+initialize_tinymce = (block, initialization) ->
   config = $.extend(
     tinymce_defaults,
     {
@@ -14,7 +14,7 @@ initialize_tinymce = (block) ->
     _.result(block, 'tinymce_config') || {}
   )
   tinymce.init config
-  if $text = block.getTextBlock?()
+  if !initialization && $text = block.getTextBlock?()
     setTimeout ->
       $text.trigger('blur')
       $text.trigger('focus') if $text.is('[contenteditable]')
@@ -22,7 +22,7 @@ initialize_tinymce = (block) ->
 
 SirTrevor.EventBus.bind 'block:create:new', initialize_tinymce
 SirTrevor.EventBus.bind 'block:create:existing', initialize_tinymce
-SirTrevor.Block.prototype._initTextBlocks = -> initialize_tinymce(this)
+SirTrevor.Block.prototype._initTextBlocks = -> initialize_tinymce(this, true)
 SirTrevor.Editor.prototype.scrollTo = (element) ->
   $('html, body').animate
     scrollTop: element.offset().top - 70 # tinymce panel height
