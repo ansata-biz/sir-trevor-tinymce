@@ -41,6 +41,13 @@ SirTrevor.Editor.prototype.scrollTo = (element) ->
     scrollTop: element.offset().top - 70 # tinymce panel height
   , 300, "linear"
 
+SirTrevor.Block.prototype.validateField = (field) ->
+  field = $(field)
+  content = if field.attr('contenteditable') then field.html() else field.val()
+  if content.length == 0
+    this.setError(field, i18n.t("errors:block_empty", name: bestNameFromField(field) ))
+
+
 # disable transforming to markdown
 SirTrevor.toMarkdown = (html) -> html
 SirTrevor.toHtml = (html) -> html

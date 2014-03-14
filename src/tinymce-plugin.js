@@ -46,6 +46,17 @@
     }, 300, "linear");
   };
 
+  SirTrevor.Block.prototype.validateField = function(field) {
+    var content;
+    field = $(field);
+    content = field.attr('contenteditable') ? field.html() : field.val();
+    if (content.length === 0) {
+      return this.setError(field, i18n.t("errors:block_empty", {
+        name: bestNameFromField(field)
+      }));
+    }
+  };
+
   SirTrevor.toMarkdown = function(html) {
     return html;
   };
