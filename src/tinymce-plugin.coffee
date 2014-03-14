@@ -1,45 +1,46 @@
-tinymce_defaults = {
+tinymce_defaults =
   selector: '.st-text-block'
+  content_editable: true
   inline: true
-}
+  hidden_input: false
 
-initialize_tinymce = (block, initialization) ->
+super_initialize = SirTrevor.Editor.prototype.initialize
+SirTrevor.Editor.prototype.initialize = ->
+  super_initialize.apply(this, arguments)
+
+  ed = this
   config = $.extend(
-    tinymce_defaults,
-    {
-      selector: "##{ block.blockID } .st-text-block:not(.mce-content-body)"
+    {},
+    tinymce_defaults, {
+      selector: '#'+this.ID + ' .st-text-block'
     },
     _.result(SirTrevor, 'tinymce_config') || {},
-    _.result(block.sirTrevor.options, 'tinymce_config') || {},
-    _.result(block, 'tinymce_config') || {}
+    _.result(this.options, 'tinymce_config') || {}
   )
-  tinymce.init config
-  if !initialization && $text = block.getTextBlock?()
-    setTimeout ->
-      $text.trigger('blur')
-      $text.trigger('focus') if $text.is('[contenteditable]')
-    , 200
+  tinymce.init(config);
 
-SirTrevor.EventBus.bind 'block:create:new', initialize_tinymce
-SirTrevor.EventBus.bind 'block:create:existing', initialize_tinymce
-SirTrevor.Block.prototype._initTextBlocks = -> initialize_tinymce(this, true)
+  $(this.$wrapper).on 'focus click', '.st-text-block', (e) ->
+
+    if !$(this).is('.mce-content-body')
+      $(this).attr('contenteditable', 'true')
+      $block = $(this).closest('.st-block')
+      block = ed.findBlockById($block.attr('id'))
+
+      this.id = _.uniqueId('st-text-block-mce-') if !this.id
+      id = this.id
+
+      setTimeout () =>
+        tinymce.init $.extend( {}, config, selector: '#'+id )
+        $(this).trigger('blur').trigger('focus')
+      , 100
+
+
+
 SirTrevor.Editor.prototype.scrollTo = (element) ->
   $('html, body').animate
     scrollTop: element.offset().top - 70 # tinymce panel height
   , 300, "linear"
 
-SirTrevor.EventBus.bind 'block:remove:pre', (block) ->
-  tinymce.remove "##{ block.blockID }"
-
 # disable transforming to markdown
 SirTrevor.toMarkdown = (html) -> html
 SirTrevor.toHtml = (html) -> html
-
-$(document).ready ->
-  $(document.body).bind 'DOMNodeRemoved', (e) ->
-    target = e.originalEvent.target
-    if target == e.target
-      $(target).find('.st-text-block.mce-content-body').each ->
-        tinymce.remove this
-      if $(target).is('.st-text-block.mce-content-body')
-        tinymce.remove target
