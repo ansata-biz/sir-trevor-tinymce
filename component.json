@@ -6,8 +6,8 @@
   "keywords": [ "sir-trevor", "plugin", "tinymce", "wysiwyg" ],
   "license": "MIT",
 
-  "main": "sir-trevor-module-block.js",
-  "scripts": [ "sir-trevor-module-block.js" ],
+  "main": "sir-trevor-tinymce.js",
+  "scripts": [ "sir-trevor-tinymce.js" ],
 
   "dependencies": {
     "madebymany/sir-trevor-js": "*"
