@@ -10,13 +10,21 @@ Note: This plugin designed to work with modified forked version of SirTrevor: ht
 Installation
 ------------
 
+You can use [Components](https://github.com/component/component) to install this plugin:
+
+~~~ shell
+component install ansata-biz/sir-trevor-tinymce
+~~~
+
 1. Link TinyMCE 4 script before SirTrevor scripts:
 
     ~~~html
       <script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
     ~~~
+
+2. Link plugin script after SirTrevor script
     
-2. All text blocks would be managed by TinyMCE instead of standard text formatter.
+3. Now all text blocks would be managed by TinyMCE instead of standard text formatter.
 
 
 Credits

@@ -1,0 +1,16 @@
+{
+  "name": "sir-trevor-tinymce",
+  "repo": "ansata-biz/sir-trevor-tinymce",
+  "version": "0.1.0",
+  "description": "SirTrevor TinyMCE plugin component",
+  "keywords": [ "sir-trevor", "plugin", "tinymce", "wysiwyg" ],
+  "license": "MIT",
+
+  "main": "sir-trevor-module-block.js",
+  "scripts": [ "sir-trevor-module-block.js" ],
+  "styles": [ "sir-trevor-module-block.css" ],
+
+  "dependencies": {
+    "madebymany/sir-trevor-js": "*"
+  }
+}
