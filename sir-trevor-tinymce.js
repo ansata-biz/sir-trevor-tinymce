@@ -57,6 +57,8 @@
     }
   };
 
+  SirTrevor.Block.prototype.clearInsertedStyles = function(target) {};
+
   SirTrevor.toMarkdown = function(html) {
     return html;
   };
