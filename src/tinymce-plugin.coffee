@@ -50,4 +50,4 @@ SirTrevor.Block.prototype.validateField = (field) ->
 
 # disable transforming to markdown
 SirTrevor.toMarkdown = (html) -> html
-SirTrevor.toHtml = (html) -> html
+SirTrevor.toHTML = (html) -> html

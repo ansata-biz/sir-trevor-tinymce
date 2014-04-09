@@ -61,7 +61,7 @@
     return html;
   };
 
-  SirTrevor.toHtml = function(html) {
+  SirTrevor.toHTML = function(html) {
     return html;
   };
 
