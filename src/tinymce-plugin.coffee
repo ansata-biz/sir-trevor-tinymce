@@ -48,7 +48,8 @@ SirTrevor.Block.prototype.validateField = (field) ->
     this.setError(field, i18n.t("errors:block_empty", name: bestNameFromField(field) ))
 
 
-SirTrevor.Block.prototype.clearInsertedStyles = (target) -> # nothing
+SirTrevor.Block.prototype.clearInsertedStyles = -> # nothing
+@SirTrevor.Block.prototype._handleContentPaste = -> # nothing
 
 # disable transforming to markdown
 SirTrevor.toMarkdown = (html) -> html

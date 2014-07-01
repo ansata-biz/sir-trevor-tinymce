@@ -57,7 +57,9 @@
     }
   };
 
-  SirTrevor.Block.prototype.clearInsertedStyles = function(target) {};
+  SirTrevor.Block.prototype.clearInsertedStyles = function() {};
+
+  this.SirTrevor.Block.prototype._handleContentPaste = function() {};
 
   SirTrevor.toMarkdown = function(html) {
     return html;
